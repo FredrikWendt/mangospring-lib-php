@@ -1,9 +1,11 @@
-== Goal ==
+Goal
+----
 
 Post a status update for a published blog post''s title (with the permalink) on a project or group wall in mangosapps.com.
 
 
-== TODO ==
+TODO
+----
 
 Must:
   * Get proof of concept through (auth issues currently)
@@ -16,6 +18,7 @@ Nice:
   * Add "Test Configuration" button/step
 
 
-== Installation ==
+Installation
+------------
 
 Right now, you need to manually clone this into a directory in the plugins directory: ```.../wp-content/plugins/mangospring/``` to get it to work with WordPress.
