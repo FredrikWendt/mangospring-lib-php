@@ -2,8 +2,8 @@
 
 class Mango {
 
-	function __construct($userid, $password, $api_key) {
-		$this->userid = $userid;
+	function __construct($username, $password, $api_key) {
+		$this->username = $username;
 		$this->password = $password;
 		$this->api_key = $api_key;
 		$this->is_logged_in = FALSE;
@@ -78,7 +78,7 @@ class Mango {
 		$data = array(
 			"ms_request" => array(
 				"user" => array(
-					"userid" => $this->userid,
+					"username" => $this->username,
 					"password" => base64_encode($this->password),
 					"api_key" => $this->api_key
 				)
@@ -89,7 +89,7 @@ class Mango {
 			$this->is_logged_in = TRUE;
 			return $result;
 		} else {
-			throw new Exception("Failed to login: ". $result->response);
+			throw new Exception("Failed to login: ". print_r($result, TRUE));
 		}
 	}
 
