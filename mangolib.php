@@ -2,12 +2,15 @@
 
 class Mango {
 
-	function __construct($username, $password, $api_key) {
+	/**
+	 * Password should be base64 encoded.
+	 */
+	function __construct($domain, $username, $password, $api_key) {
 		$this->username = $username;
 		$this->password = $password;
 		$this->api_key = $api_key;
 		$this->is_logged_in = FALSE;
-		$this->base_url = "https://squeed.mangospring.com/api/";
+		$this->base_url = "https://". $domain. "/api/";
 	}
 	
 	function __destruct() {
@@ -79,7 +82,7 @@ class Mango {
 			"ms_request" => array(
 				"user" => array(
 					"username" => $this->username,
-					"password" => base64_encode($this->password),
+					"password" => $this->password,
 					"api_key" => $this->api_key
 				)
 			)
@@ -95,8 +98,6 @@ class Mango {
 
 	function post_json($url, $data) {
 		$data_string = json_encode($data); 
-		print("Sending $data_string\n");
-		print(" to $this->base_url$url\n");
 		$ch = curl_init($this->base_url . $url);
 
 		// @curl_setopt ($this -> ch , CURLOPT_COOKIE, $params['cookie']);
