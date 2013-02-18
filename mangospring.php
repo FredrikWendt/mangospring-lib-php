@@ -20,7 +20,7 @@ function mangospring_publish_post($post_ID)  {
 
 	$mango = new Mango($domain, $username, $password, $api_key);
 	$mango->login();
-	$mango->post_status_update("New <b>blog</b> <h2>post</h2>: $post->post_title\n\nRead it all at $url");
+	$mango->post_status_update("New blog post: $post->post_title\n\nRead it at $url");
 }
 
 function mangospring_activation_hook()  {
