@@ -58,8 +58,13 @@ class Mango {
 		));
 	}
 
+	function get_my_groups() {
+		$result = $this->get_json("groups.json");
+		return $result;
+	}
+
 	function get_all_users() {
-		$result = $this->post_json("users.json", "");
+		$result = $this->get_json("users.json");
 		return $result;
 	}
 
@@ -111,6 +116,31 @@ class Mango {
 			'Content-Type: application/json',
 			'Content-Length: ' . strlen($data_string))
 		);
+
+		$response = curl_exec($ch);
+		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+		$result = new stdClass;
+		$result->response = $response;
+		$result->header = substr($response, 0, $header_size);
+		$result->body = substr($response, $header_size);
+		$result->http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$result->json = json_decode($result->response);
+		curl_close($ch);
+
+		if (isset($result->json->ms_errors)) {
+			throw new Exception("Communication error: " . print_r($result->json->ms_errors->error->message, TRUE));
+		}
+
+		return $result;
+	}
+
+	function get_json($url) {
+		$ch = curl_init($this->base_url . $url);
+
+		curl_setopt($ch, CURLOPT_COOKIEJAR, $this->cookie_file);
+		curl_setopt($ch, CURLOPT_COOKIEFILE, $this->cookie_file);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		$response = curl_exec($ch);
 		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
